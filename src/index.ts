@@ -1,11 +1,20 @@
 import { Hono } from "hono";
 import { rootRouter } from "./routes/root";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
-const app = new Hono();
+const app = new Hono<{
+  Bindings: {
+    DATABASE_URL: string;
+  };
+}>();
 
 app.route("/api/v1", rootRouter);
 
 app.get("/", (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
   return c.text("Hello Hono!");
 });
 
