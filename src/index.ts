@@ -1,21 +1,17 @@
 import { Hono } from "hono";
 import { rootRouter } from "./routes/root";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
 
-const app = new Hono<{
-  Bindings: {
-    DATABASE_URL: string;
-  };
-}>();
+const app = new Hono();
 
 app.route("/api/v1", rootRouter);
 
 app.get("/", (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-  return c.text("Hello Hono!");
+  return c.redirect("/api/v1/blogs/bulk");
+});
+
+//fallback for undefined routes
+app.notFound((c) => {
+  return c.json({ error: "Route not found" }, 404);
 });
 
 export default app;
