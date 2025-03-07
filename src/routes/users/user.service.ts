@@ -24,4 +24,19 @@ export class UserService {
       throw error;
     }
   }
+
+  async createUser(data) {
+    try {
+      const createdUser = await this.prisma.users.create({
+        data: {
+          username: data.username,
+          password: data.password,
+        },
+      });
+      return createdUser;
+    } catch (error) {
+      console.error("Error creating", error);
+      throw error;
+    }
+  }
 }
