@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { signupSchema } from "../../zod/user";
 import { UserService } from "./user.service";
+import { hashPassword } from "../../utils/password";
 
 export const usersRouter = new Hono<{
   Bindings: {
@@ -37,15 +38,15 @@ usersRouter.post("/signup", async (c) => {
     }
 
     //hash password
-    // const hashedPassword = await hashPassword(body.password);
-    // const signupPayload = { ...body, password: hashedPassword };
+    const { hashedPassword } = await hashPassword({ password: body.password });
+    const signupPayload = { ...body, password: hashedPassword };
 
     // //add user in db
-    // const createdUser = await userService.createUser(signupPayload);
+    const createdUser = await userService.createUser(signupPayload);
 
-    // if (createdUser) {
-    //   return c.json({ message: "User created successfully", createdUser }, 201);
-    // }
+    if (createdUser) {
+      return c.json({ message: "User created successfully", createdUser }, 201);
+    }
 
     return c.json({ message: "Failed to create a user" }, 500);
   } catch (error) {

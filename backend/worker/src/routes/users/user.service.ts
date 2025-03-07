@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
+import { signupSchemaT } from "../../zod/user";
 
 export class UserService {
   private prisma;
@@ -25,7 +26,7 @@ export class UserService {
     }
   }
 
-  async createUser(data) {
+  async createUser(data: signupSchemaT) {
     try {
       const createdUser = await this.prisma.users.create({
         data: {
