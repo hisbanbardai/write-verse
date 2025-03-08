@@ -72,7 +72,7 @@ usersRouter.post("/signin", async (c) => {
           message: "Invalid email or password",
           error: result.error.format(),
         },
-        400
+        401
       );
     }
 
@@ -88,7 +88,7 @@ usersRouter.post("/signin", async (c) => {
       return c.json({ message: "User logged in successfully", token }, 200);
     }
 
-    return c.json({ message: "Invalid credentials" }, 400);
+    return c.json({ message: "Invalid credentials" }, 401);
   } catch (error) {
     console.error("Failed to sign in", error);
     return c.json({ message: "Failed to sign in" }, 500);

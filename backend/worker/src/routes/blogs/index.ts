@@ -10,7 +10,7 @@ blogsRouter.post("/", async (c) => {
   return c.text("Hello create blog");
 });
 
-blogsRouter.put("/", async (c) => {
+blogsRouter.put("/:id", async (c) => {
   return c.text("Hello update blog");
 });
 
