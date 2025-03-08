@@ -58,9 +58,9 @@ blogsRouter.post("/", async (c) => {
   }
 });
 
-blogsRouter.put("/:id", async (c) => {
+blogsRouter.put("/:blogId", async (c) => {
   try {
-    const blogId = Number(c.req.param("id"));
+    const blogId = Number(c.req.param("blogId"));
     const userId = Number(c.get("userId"));
     const body = await c.req.json();
 
@@ -104,7 +104,7 @@ blogsRouter.put("/:id", async (c) => {
     }
 
     //call updateBlog method
-    const updatedBlog = await blogService.updateBlog(body, blogId, userId);
+    const updatedBlog = await blogService.updateBlog(body, blogId);
 
     if (updatedBlog) {
       return c.json({ message: "Blog updated successfully", updatedBlog }, 200);
@@ -117,9 +117,9 @@ blogsRouter.put("/:id", async (c) => {
   }
 });
 
-blogsRouter.get("/:id", async (c) => {
+blogsRouter.get("/:blogId", async (c) => {
   try {
-    const blogId = Number(c.req.param("id"));
+    const blogId = Number(c.req.param("blogId"));
 
     //check if blog id is valid
     if (!blogId || isNaN(blogId)) {
