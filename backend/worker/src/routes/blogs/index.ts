@@ -92,7 +92,7 @@ blogsRouter.put("/:id", async (c) => {
     const existingBlog = await blogService.getBlogById(blogId);
 
     if (!existingBlog) {
-      return c.json({ message: "Blog does not exist" }, 400);
+      return c.json({ message: "Blog does not exist" }, 404);
     }
 
     //check if said user is the owner of the blog
@@ -118,5 +118,27 @@ blogsRouter.put("/:id", async (c) => {
 });
 
 blogsRouter.get("/:id", async (c) => {
-  return c.text("Hello get blog by id");
+  try {
+    const blogId = Number(c.req.param("id"));
+
+    //check if blog id is valid
+    if (!blogId || isNaN(blogId)) {
+      return c.json({ message: "Invalid blog id" }, 400);
+    }
+
+    //initialize BlogService instance to initialize prisma client
+    const blogService = new BlogService(c.env.DATABASE_URL);
+
+    //call getBlogById method
+    const existingBlog = await blogService.getBlogById(blogId);
+
+    if (existingBlog) {
+      return c.json({ existingBlog }, 200);
+    }
+
+    return c.json({ message: "Blog does not exist" }, 404);
+  } catch (error) {
+    console.error("Failed to fetch the blog by id", error);
+    return c.json({ message: "Failed to fetch the blog by id" }, 500);
+  }
 });
