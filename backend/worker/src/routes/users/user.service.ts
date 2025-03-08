@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { signupSchemaT } from "../../zod/user";
+import { verifyPassword } from "../../utils/password";
 
 export class UserService {
   private prisma;
@@ -37,6 +38,28 @@ export class UserService {
       return createdUser;
     } catch (error) {
       console.error("Error creating", error);
+      throw error;
+    }
+  }
+
+  async validateUserCredentials(data: signupSchemaT) {
+    try {
+      const existingUser = await this.findUserByUsername(data.username);
+      if (existingUser) {
+        const hashedPassword = existingUser.password;
+        const { isValid } = await verifyPassword({
+          password: data.password,
+          hashedPassword: hashedPassword,
+        });
+
+        if (isValid) {
+          return existingUser;
+        }
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Error validating user credentials", error);
       throw error;
     }
   }

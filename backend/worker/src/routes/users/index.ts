@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { signupSchema } from "../../zod/user";
+import { signinSchema, signupSchema } from "../../zod/user";
 import { UserService } from "./user.service";
-import { hashPassword } from "../../utils/password";
+import { hashPassword, verifyPassword } from "../../utils/password";
 import { sign } from "hono/jwt";
 
 export const usersRouter = new Hono<{
@@ -62,5 +62,35 @@ usersRouter.post("/signup", async (c) => {
 });
 
 usersRouter.post("/signin", async (c) => {
-  return c.text("Hello signin");
+  try {
+    const body = await c.req.json();
+    const result = signinSchema.safeParse(body);
+
+    if (!result.success) {
+      return c.json(
+        {
+          message: "Invalid email or password",
+          error: result.error.format(),
+        },
+        400
+      );
+    }
+
+    //validate credentials
+    const userService = new UserService(c.env.DATABASE_URL);
+    const response = await userService.validateUserCredentials(body);
+
+    if (response) {
+      //generate jwt token
+      const payload = { userId: response.id };
+      const token = await sign(payload, c.env.JWT_SECRET);
+
+      return c.json({ message: "User logged in successfully", token }, 200);
+    }
+
+    return c.json({ message: "Invalid credentials" }, 400);
+  } catch (error) {
+    console.error("Failed to sign in", error);
+    return c.json({ message: "Failed to sign in" }, 500);
+  }
 });
