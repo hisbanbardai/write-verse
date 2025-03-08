@@ -38,7 +38,7 @@ export class BlogService {
     }
   }
 
-  async updateBlog(data: updateBlogSchemaT, blogId: number, userId: number) {
+  async updateBlog(data: updateBlogSchemaT, blogId: number) {
     try {
       const updatedBlog = await this.prisma.blogs.update({
         data: {
@@ -47,7 +47,6 @@ export class BlogService {
         },
         where: {
           id: blogId,
-          authorId: userId,
         },
       });
 
