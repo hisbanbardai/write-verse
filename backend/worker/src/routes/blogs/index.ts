@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { BlogService } from "./blog.service";
 import { authMiddleware } from "../../middlewares/auth";
-import { createBlogSchema } from "../../zod/blog";
+import { createBlogSchema, updateBlogSchema } from "../../zod/blog";
 
 export const blogsRouter = new Hono<{
   Bindings: {
@@ -59,7 +59,62 @@ blogsRouter.post("/", async (c) => {
 });
 
 blogsRouter.put("/:id", async (c) => {
-  return c.text("Hello update blog");
+  try {
+    const blogId = Number(c.req.param("id"));
+    const userId = Number(c.get("userId"));
+    const body = await c.req.json();
+
+    //check if blog id is valid
+    if (!blogId || isNaN(blogId)) {
+      return c.json({ message: "Invalid blog id" }, 400);
+    }
+
+    //check if valid userId
+    if (!userId || isNaN(userId)) {
+      return c.json({ message: "Invalid user id" }, 400);
+    }
+
+    //check if body is empty
+    if (!Object.keys(body).length) {
+      return c.json({ message: "No field provided to update" }, 400);
+    }
+
+    //validate update blog schema using zod
+    const result = updateBlogSchema.safeParse(body);
+    if (!result.success) {
+      return c.json({ message: result.error.format() });
+    }
+
+    //initialize BlogService instance to initialize prisma client
+    const blogService = new BlogService(c.env.DATABASE_URL);
+
+    //check if blog exists
+    const existingBlog = await blogService.getBlogById(blogId);
+
+    if (!existingBlog) {
+      return c.json({ message: "Blog does not exist" }, 400);
+    }
+
+    //check if said user is the owner of the blog
+    if (existingBlog.authorId !== userId) {
+      return c.json(
+        { message: "You do not have the permissions to update this blog" },
+        403
+      );
+    }
+
+    //call updateBlog method
+    const updatedBlog = await blogService.updateBlog(body, blogId, userId);
+
+    if (updatedBlog) {
+      return c.json({ message: "Blog updated successfully", updatedBlog }, 200);
+    }
+
+    return c.json({ message: "Failed to update the blog" }, 500);
+  } catch (error) {
+    console.error("Failed to update the blog", error);
+    return c.json({ message: "Failed to update the blog" }, 500);
+  }
 });
 
 blogsRouter.get("/:id", async (c) => {
