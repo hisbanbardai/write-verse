@@ -2,10 +2,12 @@ import { Hono } from "hono";
 import { signupSchema } from "../../zod/user";
 import { UserService } from "./user.service";
 import { hashPassword } from "../../utils/password";
+import { sign } from "hono/jwt";
 
 export const usersRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
+    JWT_SECRET: string;
   };
 }>();
 
@@ -45,7 +47,11 @@ usersRouter.post("/signup", async (c) => {
     const createdUser = await userService.createUser(signupPayload);
 
     if (createdUser) {
-      return c.json({ message: "User created successfully", createdUser }, 201);
+      //generate jwt token
+      const payload = { userId: createdUser.id };
+      const token = await sign(payload, c.env.JWT_SECRET);
+
+      return c.json({ message: "User created successfully", token }, 201);
     }
 
     return c.json({ message: "Failed to create a user" }, 500);
