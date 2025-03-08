@@ -11,10 +11,21 @@ export class BlogService {
     }).$extends(withAccelerate());
   }
 
-  async getAllBlogs() {
+  async getAllBlogs(offset: number, pageSize: number) {
     try {
-      const blogs = await this.prisma.blogs.findMany();
-      return blogs;
+      // Fetch paginated blogs
+      const blogs = await this.prisma.blogs.findMany({
+        select: {
+          id: true,
+          title: true,
+        },
+        skip: offset,
+        take: pageSize,
+      });
+
+      //Fetch total count of blogs
+      const totalCount = await this.prisma.blogs.count();
+      return { blogs, totalCount };
     } catch (error) {
       console.error("Error fetching all blogs", error);
       throw error;

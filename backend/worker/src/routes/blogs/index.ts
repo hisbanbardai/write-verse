@@ -16,10 +16,33 @@ blogsRouter.use("*", authMiddleware);
 
 blogsRouter.get("/bulk", async (c) => {
   try {
-    const blogService = new BlogService(c.env.DATABASE_URL);
-    const blogs = await blogService.getAllBlogs();
+    //get the page number and page size
+    const pageNumber = Number(c.req.query("page")) || 1;
+    const pageSize = Number(c.req.query("pageSize")) || 5;
 
-    return c.json({ blogs }, 200);
+    if (
+      isNaN(pageNumber) ||
+      pageNumber < 1 ||
+      isNaN(pageSize) ||
+      pageSize < 1
+    ) {
+      return c.json({ message: "Invalid page number or pageSize" }, 400);
+    }
+
+    //calculate offset (how many records to skip)
+    const offset = (pageNumber - 1) * pageSize;
+
+    //fetch paginated blogs
+    const blogService = new BlogService(c.env.DATABASE_URL);
+    const { blogs, totalCount } = await blogService.getAllBlogs(
+      offset,
+      pageSize
+    );
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    return c.json({ blogs, totalPages }, 200);
   } catch (error) {
     console.error("Failed to fetch the blogs", error);
     return c.json({ message: "Failed to fetch the blogs" }, 500);
