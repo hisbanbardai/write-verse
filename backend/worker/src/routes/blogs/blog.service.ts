@@ -9,4 +9,14 @@ export class BlogService {
       datasourceUrl: databaseUrl,
     }).$extends(withAccelerate());
   }
+
+  async getAllBlogs() {
+    try {
+      const blogs = await this.prisma.blogs.findMany();
+      return blogs;
+    } catch (error) {
+      console.error("Error fetching all blogs", error);
+      throw error;
+    }
+  }
 }
