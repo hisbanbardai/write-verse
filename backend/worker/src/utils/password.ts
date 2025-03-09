@@ -5,7 +5,7 @@ type hashPasswordResponse = {
 export const hashPassword = async function (body: {
   password: string;
 }): Promise<hashPasswordResponse> {
-  const response = await fetch("http://localhost:3001/hash", {
+  const response = await fetch("https://write-verse.onrender.com/hash", {
     method: "POST",
     body: JSON.stringify(body),
     headers: {
@@ -20,7 +20,7 @@ export const verifyPassword = async function (body: {
   password: string;
   hashedPassword: string;
 }): Promise<{ isValid: boolean }> {
-  const response = await fetch("http://localhost:3001/verify", {
+  const response = await fetch("https://write-verse.onrender.com/verify", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
