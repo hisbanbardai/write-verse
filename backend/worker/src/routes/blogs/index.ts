@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { BlogService } from "./blog.service";
 import { authMiddleware } from "../../middlewares/auth";
-import { createBlogSchema, updateBlogSchema } from "../../zod/blog";
+import { createBlogSchema, updateBlogSchema } from "@hisbanshiraz/common";
 
 export const blogsRouter = new Hono<{
   Bindings: {

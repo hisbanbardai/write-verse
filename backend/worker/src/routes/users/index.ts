@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { signinSchema, signupSchema } from "../../zod/user";
+import { signinSchema, signupSchema } from "@hisbanshiraz/common";
 import { UserService } from "./user.service";
 import { hashPassword, verifyPassword } from "../../utils/password";
 import { sign } from "hono/jwt";
