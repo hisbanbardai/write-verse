@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { signupSchemaT } from "../../zod/user";
+import { signupSchemaT } from "@hisbanshiraz/common";
 import { verifyPassword } from "../../utils/password";
 
 export class UserService {
@@ -33,6 +33,7 @@ export class UserService {
         data: {
           username: data.username,
           password: data.password,
+          name: data.name,
         },
       });
       return createdUser;
