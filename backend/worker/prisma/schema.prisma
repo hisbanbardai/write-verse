@@ -15,7 +15,7 @@ datasource db {
 
 model Users {
   id Int @id @default(autoincrement())
-  name String?
+  name String? 
   username String @unique
   password String
   blogs Blogs[]
@@ -28,4 +28,6 @@ model Blogs {
   title String
   content String
   published Boolean @default(false)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
 }
