@@ -13,4 +13,4 @@ export const signinSchema = z.object({
   password: z.string(),
 });
 
-export type signinSchema = z.infer<typeof signinSchema>;
+export type signinSchemaT = z.infer<typeof signinSchema>;
