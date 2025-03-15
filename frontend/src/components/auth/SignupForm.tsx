@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../common/Button";
 import { InputBox } from "../common/InputBox";
 import { useState } from "react";
 import { signupSchema, signupSchemaT } from "@hisbanshiraz/common";
 import axios, { AxiosError } from "axios";
+import { AuthHeader } from "../common/AuthHeader";
 
 export const SignupForm = function () {
   const [signupFormData, setSignupFormData] = useState<signupSchemaT>({
@@ -66,15 +67,12 @@ export const SignupForm = function () {
 
   return (
     <div className="flex flex-col gap-8 max-w-sm w-full">
-      <div className="text-center flex flex-col gap-4">
-        <h1 className="text-4xl font-bold">Create an account</h1>
-        <p className="text-xl text-slate-500">
-          Already have an account?{" "}
-          <Link to={"/signin"} className="underline">
-            Login
-          </Link>
-        </p>
-      </div>
+      <AuthHeader
+        headingText={"Create Account"}
+        subHeadingText={"Already have an account?"}
+        linkText={"Login"}
+        to={"/signin"}
+      />
       <form className="flex flex-col gap-4">
         <InputBox
           label={"Name"}
