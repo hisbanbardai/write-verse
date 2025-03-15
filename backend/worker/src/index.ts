@@ -4,7 +4,7 @@ import { cors } from "hono/cors";
 
 const app = new Hono();
 
-app.use("/api/v1", cors());
+app.use("/api/v1/*", cors());
 
 app.route("/api/v1", rootRouter);
 
