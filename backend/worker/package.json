@@ -5,7 +5,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
-    "@hisbanshiraz/common": "^1.0.3",
+    "@hisbanshiraz/common": "^1.0.6",
     "@prisma/client": "^6.4.1",
     "@prisma/extension-accelerate": "^1.2.2",
     "argon2-browser": "^1.18.0",
