@@ -6,11 +6,8 @@ import { useAuthForm } from "../../hooks/useAuthForm";
 import { SIGNUP_API_URL } from "../../config";
 
 export const SignupForm = function () {
-  const { formData, errors, handleChange, handleFormSubmit } = useAuthForm(
-    signupSchema,
-    { username: "", password: "" },
-    SIGNUP_API_URL
-  );
+  const { formData, errors, handleChange, handleFormSubmit, isSubmit } =
+    useAuthForm(signupSchema, { username: "", password: "" }, SIGNUP_API_URL);
 
   return (
     <div className="flex flex-col gap-8 max-w-sm w-full">
@@ -56,7 +53,11 @@ export const SignupForm = function () {
             {errors.password}
           </span>
         )}
-        <Button handleFormSubmit={handleFormSubmit} label={"Sign Up"} />
+        <Button
+          handleFormSubmit={handleFormSubmit}
+          label={"Sign Up"}
+          isSubmit={isSubmit}
+        />
         {errors.message && (
           <span className="text-red-500 text-lg font-semibold">
             {errors.message}

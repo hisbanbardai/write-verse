@@ -6,11 +6,8 @@ import { useAuthForm } from "../../hooks/useAuthForm";
 import { SIGNIN_API_URL } from "../../config";
 
 export const SigninForm = function () {
-  const { formData, errors, handleChange, handleFormSubmit } = useAuthForm(
-    signinSchema,
-    { username: "", password: "" },
-    SIGNIN_API_URL
-  );
+  const { formData, errors, handleChange, handleFormSubmit, isSubmit } =
+    useAuthForm(signinSchema, { username: "", password: "" }, SIGNIN_API_URL);
 
   return (
     <div className="flex flex-col gap-8 max-w-sm w-full">
@@ -47,7 +44,11 @@ export const SigninForm = function () {
             {errors.password}
           </span>
         )}
-        <Button handleFormSubmit={handleFormSubmit} label={"Sign in"} />
+        <Button
+          handleFormSubmit={handleFormSubmit}
+          label={"Sign in"}
+          isSubmit={isSubmit}
+        />
         {errors.message && (
           <span className="text-red-500 text-lg font-semibold">
             {errors.message}

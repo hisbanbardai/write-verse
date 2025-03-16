@@ -10,8 +10,8 @@ export const useAuthForm = function (
   apiUrl: string
 ) {
   const [formData, setFormData] = useState(initialData);
-
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -33,6 +33,7 @@ export const useAuthForm = function (
       }
 
       setErrors(validationErrors);
+      setIsSubmit(false);
 
       return true;
     }
@@ -42,8 +43,10 @@ export const useAuthForm = function (
 
   async function handleFormSubmit() {
     try {
+      setIsSubmit(true);
       if (!hasValidationErrors()) {
         const response = await axios.post(apiUrl, formData);
+        setIsSubmit(false);
 
         //set token in local storage
         localStorage.setItem("token", response.data.token);
@@ -52,6 +55,7 @@ export const useAuthForm = function (
         navigate("/blogs");
       }
     } catch (error) {
+      setIsSubmit(false);
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message);
         setErrors(error.response?.data);
@@ -67,5 +71,6 @@ export const useAuthForm = function (
     errors,
     handleChange,
     handleFormSubmit,
+    isSubmit,
   };
 };
