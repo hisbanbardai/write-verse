@@ -1,69 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "../common/Button";
 import { InputBox } from "../common/InputBox";
-import { useState } from "react";
-import { signupSchema, signupSchemaT } from "@hisbanshiraz/common";
-import axios, { AxiosError } from "axios";
+import { signupSchema } from "@hisbanshiraz/common";
 import { AuthHeader } from "../common/AuthHeader";
+import { useAuthForm } from "../../hooks/useAuthForm";
+import { SIGNUP_API_URL } from "../../config";
 
 export const SignupForm = function () {
-  const [signupFormData, setSignupFormData] = useState<signupSchemaT>({
-    name: "",
-    username: "",
-    password: "",
-  });
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const navigate = useNavigate();
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setErrors({});
-    setSignupFormData({ ...signupFormData, [e.target.name]: e.target.value });
-  }
-
-  function checkFormValidation() {
-    const result = signupSchema.safeParse(signupFormData);
-
-    if (!result.success) {
-      const errorsObj: Record<string, string[]> =
-        result.error.formErrors.fieldErrors;
-      const validationErrors: Record<string, string> = {};
-
-      for (const key of Object.keys(errorsObj)) {
-        validationErrors[`${key}`] = errorsObj[key][0];
-      }
-
-      setErrors(validationErrors);
-
-      return true;
-    }
-
-    return false;
-  }
-
-  async function handleFormSubmit() {
-    try {
-      if (!checkFormValidation()) {
-        const response = await axios.post(
-          "https://write-verse.hisbanbardai.workers.dev/api/v1/users/signup",
-          signupFormData
-        );
-
-        //set token in local storage
-        localStorage.setItem("token", response.data.token);
-
-        //navigate user to blogs page
-        navigate("/blogs");
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setErrors(error.response?.data);
-        console.error(error.response?.data.message);
-      } else {
-        console.error(error);
-      }
-    }
-  }
+  const { formData, errors, handleChange, handleFormSubmit } = useAuthForm(
+    signupSchema,
+    { username: "", password: "" },
+    SIGNUP_API_URL
+  );
 
   return (
     <div className="flex flex-col gap-8 max-w-sm w-full">
@@ -78,7 +25,7 @@ export const SignupForm = function () {
           label={"Name"}
           placeholder={"John Doe"}
           required={false}
-          value={signupFormData.name}
+          value={"name" in formData ? formData.name : ""}
           name="name"
           handleChange={handleChange}
         />
@@ -87,7 +34,7 @@ export const SignupForm = function () {
           label={"Username"}
           placeholder={"johndoe@example.com"}
           type="email"
-          value={signupFormData.username}
+          value={formData.username}
           name="username"
           handleChange={handleChange}
         />
@@ -100,7 +47,7 @@ export const SignupForm = function () {
           label={"Password"}
           placeholder={"123456"}
           type="password"
-          value={signupFormData.password}
+          value={formData.password}
           name="password"
           handleChange={handleChange}
         />
