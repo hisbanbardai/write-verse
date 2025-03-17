@@ -3,14 +3,18 @@ import { InputBox } from "../common/InputBox";
 import { signupSchema } from "@hisbanshiraz/common";
 import { AuthHeader } from "../common/AuthHeader";
 import { useAuthForm } from "../../hooks/useAuthForm";
-import { SIGNUP_API_URL } from "../../config";
+import { BACKEND_URL } from "../../config";
 
 export const SignupForm = function () {
   const { formData, errors, handleChange, handleFormSubmit, isSubmit } =
-    useAuthForm(signupSchema, { username: "", password: "" }, SIGNUP_API_URL);
+    useAuthForm(
+      signupSchema,
+      { username: "", password: "" },
+      `${BACKEND_URL}/users/signup`
+    );
 
   return (
-    <div className="flex flex-col gap-8 max-w-sm w-full">
+    <div className="flex flex-col gap-8 max-w-sm w-full ">
       <AuthHeader
         headingText={"Create Account"}
         subHeadingText={"Already have an account?"}
@@ -19,14 +23,29 @@ export const SignupForm = function () {
       />
       <form className="flex flex-col gap-4">
         <InputBox
-          label={"Name"}
-          placeholder={"John Doe"}
-          required={false}
-          value={"name" in formData ? formData.name : ""}
-          name="name"
+          label={"First Name"}
+          placeholder={"John"}
+          value={"firstName" in formData ? formData.firstName : ""}
+          name="firstName"
           handleChange={handleChange}
         />
-
+        {errors.firstName && (
+          <span className="text-red-500 text-lg font-semibold">
+            {errors.firstName}
+          </span>
+        )}
+        <InputBox
+          label={"Last Name"}
+          placeholder={"Doe"}
+          value={"lastName" in formData ? formData.lastName : ""}
+          name="lastName"
+          handleChange={handleChange}
+        />
+        {errors.lastName && (
+          <span className="text-red-500 text-lg font-semibold">
+            {errors.lastName}
+          </span>
+        )}
         <InputBox
           label={"Username"}
           placeholder={"johndoe@example.com"}

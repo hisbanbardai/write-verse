@@ -1,6 +1,6 @@
 export const Quote = function () {
   return (
-    <div className="max-w-xl flex flex-col gap-3 lg:px-6">
+    <div className="max-w-xl flex flex-col gap-3 lg:px-6 w-full ">
       <div>
         <p className="text-black font-bold text-3xl">
           "The customer service I received was exceptional. The support team

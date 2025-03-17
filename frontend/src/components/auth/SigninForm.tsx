@@ -3,11 +3,15 @@ import { InputBox } from "../common/InputBox";
 import { signinSchema } from "@hisbanshiraz/common";
 import { AuthHeader } from "../common/AuthHeader";
 import { useAuthForm } from "../../hooks/useAuthForm";
-import { SIGNIN_API_URL } from "../../config";
+import { BACKEND_URL } from "../../config";
 
 export const SigninForm = function () {
   const { formData, errors, handleChange, handleFormSubmit, isSubmit } =
-    useAuthForm(signinSchema, { username: "", password: "" }, SIGNIN_API_URL);
+    useAuthForm(
+      signinSchema,
+      { username: "", password: "" },
+      `${BACKEND_URL}/users/signin`
+    );
 
   return (
     <div className="flex flex-col gap-8 max-w-sm w-full">
