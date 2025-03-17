@@ -33,7 +33,8 @@ export class UserService {
         data: {
           username: data.username,
           password: data.password,
-          name: data.name,
+          firstName: data.firstName,
+          lastName: data.lastName,
         },
       });
       return createdUser;

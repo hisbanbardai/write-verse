@@ -18,6 +18,13 @@ export class BlogService {
         select: {
           id: true,
           title: true,
+          content: true,
+          author: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
         },
         skip: offset,
         take: pageSize,
