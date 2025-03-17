@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BlogCard, TBlogCardProps } from "../components/blog/BlogCard";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { Skeleton } from "../components/common/Skeleton";
 
 type TBlogAuthor = {
   firstName: string;
@@ -15,13 +16,14 @@ type TBlog = TBlogCardProps & {
 
 export const Blogs = function () {
   const [blogs, setBlogs] = useState<TBlog[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchAllBlogs() {
+      setIsLoading(true);
       const response = await axios.get(`${BACKEND_URL}/blogs/bulk`, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzfQ.XbLrlArhfDVZA19qVAaMGw0-I9glLBPtlABPchTceiY",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         params: {
           page: 1,
@@ -30,21 +32,37 @@ export const Blogs = function () {
       });
 
       setBlogs(response.data.blogs);
+      setIsLoading(false);
     }
     fetchAllBlogs();
   }, []);
 
   return (
     <div className="lg:max-w-3xl md:max-w-2xl max-w-lg mx-auto mt-20 flex flex-col gap-10">
-      {blogs.map((blog) => (
-        <BlogCard
-          title={blog.title}
-          content={blog.content}
-          firstName={blog.author.firstName}
-          lastName={blog.author.lastName}
-          createdAt={blog.createdAt}
-        />
-      ))}
+      {isLoading ? (
+        <>
+          <Skeleton />
+          <br />
+          <Skeleton />
+          <br />
+          <Skeleton />
+          <br />
+          <Skeleton />
+          <br />
+          <Skeleton />
+        </>
+      ) : (
+        blogs.map((blog) => (
+          <BlogCard
+            key={blog.id}
+            title={blog.title}
+            content={blog.content}
+            firstName={blog.author.firstName}
+            lastName={blog.author.lastName}
+            createdAt={blog.createdAt}
+          />
+        ))
+      )}
     </div>
   );
 };
