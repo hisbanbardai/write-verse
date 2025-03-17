@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 export const signupSchema = z.object({
-  name: z.string().optional(),
+  firstName: z.string().min(1, "First name cannot be empty"),
+  lastName: z.string().min(1, "Last name cannot be empty"),
   username: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be of at least 6 characters long"),
 });
