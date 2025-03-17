@@ -6,11 +6,13 @@ import { Signin } from "./pages/Signin";
 import { Blogs } from "./pages/Blogs";
 import { Blog } from "./pages/Blog";
 import { BlogCreate } from "./pages/BlogCreate";
+import { AppHeader } from "./components/layout/AppHeader";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <AppHeader />
         <Routes>
           <Route element={<PublicRoutes />}>
             <Route path="/signup" element={<Signup />} />

@@ -2,7 +2,7 @@ export const BlogCard = function () {
   return (
     <div className="flex flex-col gap-6 border-b border-slate-200 pb-10">
       <div className="flex gap-3 h-full items-center">
-        <Avatar />
+        <Avatar width="10" height="10" />
         <p>Peter V.</p>
         <p className="text-slate-500 font-medium">&middot;</p>
         <p className="text-slate-500 ">Dec 3, 2023</p>
@@ -26,10 +26,20 @@ export const BlogCard = function () {
   );
 };
 
-const Avatar = function () {
+export const Avatar = function ({
+  width = "10",
+  height = "10",
+}: {
+  width: string;
+  height: string;
+}) {
   return (
-    <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-      <span className="font-medium text-gray-600 dark:text-gray-300">JL</span>
+    <div
+      className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gray-300 rounded-full dark:bg-gray-600`}
+    >
+      <span className="font-medium text-gray-600 dark:text-gray-300 text-lg">
+        JL
+      </span>
     </div>
   );
 };
