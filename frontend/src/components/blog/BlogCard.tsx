@@ -16,7 +16,8 @@ export const BlogCard = function ({
   const formattedDate = new Date(Date.parse(createdAt)).toDateString();
   const slicedContent = content.slice(0, content.length / 2);
   const readDuration = Math.ceil(content.length / 100);
-  const authorNameInitials = firstName[0] + lastName[0];
+  const authorNameInitials =
+    firstName[0].toUpperCase() + lastName[0].toUpperCase();
 
   return (
     <div className="flex flex-col gap-6 border-b border-slate-200 pb-10">

@@ -15,9 +15,22 @@ type TBlog = TBlogCardProps & {
   author: TBlogAuthor;
 };
 
+let totalNumOfPages = 1;
+
 export const Blogs = function () {
   const [blogs, setBlogs] = useState<TBlog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function handlePageChange(direction: string) {
+    if (direction === "previous") {
+      setCurrentPage((prev) => prev - 1);
+    }
+
+    if (direction === "next") {
+      setCurrentPage((prev) => prev + 1);
+    }
+  }
 
   useEffect(() => {
     async function fetchAllBlogs() {
@@ -27,16 +40,23 @@ export const Blogs = function () {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         params: {
-          page: 1,
+          page: currentPage,
           pageSize: 5,
         },
       });
 
       setBlogs(response.data.blogs);
       setIsLoading(false);
+      totalNumOfPages = response.data.totalPages;
+      console.log(totalNumOfPages);
     }
     fetchAllBlogs();
-  }, []);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [currentPage]);
 
   return (
     <>
@@ -66,7 +86,11 @@ export const Blogs = function () {
           ))
         )}
       </div>
-      <PaginationControls />
+      <PaginationControls
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        totalNumOfPages={totalNumOfPages}
+      />
     </>
   );
 };
