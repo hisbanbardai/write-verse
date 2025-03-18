@@ -14,7 +14,7 @@ app.get("/", (c) => {
 
 //fallback for undefined routes
 app.notFound((c) => {
-  return c.json({ error: "Route not found" }, 404);
+  return c.json({ message: "Route not found" }, 404);
 });
 
 export default app;
