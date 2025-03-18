@@ -6,6 +6,7 @@ import { Signin } from "./pages/Signin";
 import { Blogs } from "./pages/Blogs";
 import { Blog } from "./pages/Blog";
 import { BlogCreate } from "./pages/BlogCreate";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -23,6 +24,12 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          className: "text-2xl",
+        }}
+      />
     </>
   );
 }
