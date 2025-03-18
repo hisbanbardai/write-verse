@@ -3,6 +3,7 @@ import { BlogCard, TBlogCardProps } from "../components/blog/BlogCard";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { Skeleton } from "../components/common/Skeleton";
+import { PaginationControls } from "../components/blog/PaginationControls";
 
 type TBlogAuthor = {
   firstName: string;
@@ -38,31 +39,34 @@ export const Blogs = function () {
   }, []);
 
   return (
-    <div className="lg:max-w-3xl md:max-w-2xl max-w-lg mx-auto mt-20 flex flex-col gap-10">
-      {isLoading ? (
-        <>
-          <Skeleton />
-          <br />
-          <Skeleton />
-          <br />
-          <Skeleton />
-          <br />
-          <Skeleton />
-          <br />
-          <Skeleton />
-        </>
-      ) : (
-        blogs.map((blog) => (
-          <BlogCard
-            key={blog.id}
-            title={blog.title}
-            content={blog.content}
-            firstName={blog.author.firstName}
-            lastName={blog.author.lastName}
-            createdAt={blog.createdAt}
-          />
-        ))
-      )}
-    </div>
+    <>
+      <div className="lg:max-w-3xl md:max-w-2xl max-w-lg mx-auto mt-20 flex flex-col gap-10">
+        {isLoading ? (
+          <>
+            <Skeleton />
+            <br />
+            <Skeleton />
+            <br />
+            <Skeleton />
+            <br />
+            <Skeleton />
+            <br />
+            <Skeleton />
+          </>
+        ) : (
+          blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              title={blog.title}
+              content={blog.content}
+              firstName={blog.author.firstName}
+              lastName={blog.author.lastName}
+              createdAt={blog.createdAt}
+            />
+          ))
+        )}
+      </div>
+      <PaginationControls />
+    </>
   );
 };
