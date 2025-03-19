@@ -14,7 +14,7 @@ export const SignupForm = function () {
     );
 
   return (
-    <div className="flex flex-col gap-8 max-w-sm w-full ">
+    <div className="flex flex-col gap-8 max-w-sm w-full">
       <AuthHeader
         headingText={"Create Account"}
         subHeadingText={"Already have an account?"}
