@@ -35,7 +35,7 @@ export const BlogCard = function ({
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="text-2xl font-bold">{title}</h2>
-        <p className="text-lg">{slicedContent}</p>
+        <p className="text-lg">{slicedContent}...</p>
       </div>
       <div>
         <span className="text-slate-500">{readDuration} min read</span>
