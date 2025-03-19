@@ -18,7 +18,9 @@ function App() {
             <Route path="/signin" element={<Signin />} />
           </Route>
           <Route element={<ProtectedRoutes />}>
-            <Route path="/blogs" element={<Blogs />} />
+            {["/", "/blogs"].map((path) => (
+              <Route path={path} element={<Blogs />} key={path} />
+            ))}
             <Route path="/blog/:id" element={<Blog />} />
             <Route path="/blog/new" element={<BlogCreate />} />
           </Route>
