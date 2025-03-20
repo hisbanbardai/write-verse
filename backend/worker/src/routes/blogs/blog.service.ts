@@ -82,6 +82,19 @@ export class BlogService {
         where: {
           id: blogId,
         },
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          createdAt: true,
+          author: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
       });
       return existingBlog;
     } catch (error) {
