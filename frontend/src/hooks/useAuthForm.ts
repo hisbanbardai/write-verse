@@ -52,7 +52,7 @@ export const useAuthForm = function (
         localStorage.setItem("token", response.data.token);
 
         //navigate user to blogs page
-        navigate("/blogs");
+        navigate("/blogs", { replace: true });
       }
     } catch (error) {
       setIsSubmit(false);
