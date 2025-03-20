@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoutes } from "./components/auth/ProtectedRoutes";
 import { PublicRoutes } from "./components/auth/PublicRoutes";
 import { Signup } from "./pages/Signup";
@@ -18,9 +18,8 @@ function App() {
             <Route path="/signin" element={<Signin />} />
           </Route>
           <Route element={<ProtectedRoutes />}>
-            {["/", "/blogs"].map((path) => (
-              <Route path={path} element={<Blogs />} key={path} />
-            ))}
+            <Route path="/" element={<Navigate to="/blogs" replace />} />
+            <Route path={"/blogs"} element={<Blogs />} />
             <Route path="/blog/:id" element={<Blog />} />
             <Route path="/blog/new" element={<BlogCreate />} />
           </Route>
