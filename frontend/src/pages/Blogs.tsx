@@ -23,16 +23,7 @@ export const Blogs = function () {
             <Skeleton />
           </>
         ) : (
-          blogs.map((blog) => (
-            <BlogCard
-              key={blog.id}
-              title={blog.title}
-              content={blog.content}
-              firstName={blog.author.firstName}
-              lastName={blog.author.lastName}
-              createdAt={blog.createdAt}
-            />
-          ))
+          blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
         )}
       </div>
       {blogs.length > 0 && (

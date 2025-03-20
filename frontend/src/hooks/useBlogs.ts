@@ -1,17 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
-import { TBlogCardProps } from "../components/blog/BlogCard";
+import { TBlog } from "../components/blog/BlogCard";
 import { useQuery } from "@tanstack/react-query";
 
-type TBlogAuthor = {
+export type TBlogAuthor = {
   firstName: string;
   lastName: string;
-};
-
-type TBlog = TBlogCardProps & {
-  id: string;
-  author: TBlogAuthor;
 };
 
 type TBlogResponse = {
