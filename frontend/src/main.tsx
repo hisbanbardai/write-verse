@@ -12,6 +12,7 @@ import { handleError } from "./lib/utils.ts";
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
+      console.error("QueryCache Error:", error);
       handleError(error);
     },
   }),
