@@ -8,7 +8,7 @@ export const blogsRouter = new Hono<{
     DATABASE_URL: string;
   };
   Variables: {
-    userId: string;
+    user: Record<string, string>;
   };
 }>();
 
@@ -52,7 +52,8 @@ blogsRouter.get("/bulk", async (c) => {
 blogsRouter.post("/", async (c) => {
   try {
     const body = await c.req.json();
-    const userId = Number(c.get("userId"));
+    const user = c.get("user");
+    const userId = Number(user.id);
 
     //check if valid userId
     if (!userId || isNaN(userId)) {
@@ -84,7 +85,8 @@ blogsRouter.post("/", async (c) => {
 blogsRouter.put("/:blogId", async (c) => {
   try {
     const blogId = Number(c.req.param("blogId"));
-    const userId = Number(c.get("userId"));
+    const user = c.get("user");
+    const userId = Number(user.id);
     const body = await c.req.json();
 
     //check if blog id is valid
@@ -119,7 +121,7 @@ blogsRouter.put("/:blogId", async (c) => {
     }
 
     //check if said user is the owner of the blog
-    if (existingBlog.authorId !== userId) {
+    if (existingBlog.author.id !== userId) {
       return c.json(
         { message: "You do not have the permissions to update this blog" },
         403

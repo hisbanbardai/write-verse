@@ -48,7 +48,13 @@ usersRouter.post("/signup", async (c) => {
 
     if (createdUser) {
       //generate jwt token
-      const payload = { userId: createdUser.id };
+      const payload = {
+        id: createdUser.id,
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+        username: createdUser.username,
+      };
+
       const token = await sign(payload, c.env.JWT_SECRET);
 
       return c.json({ message: "User created successfully", token }, 201);
@@ -82,7 +88,14 @@ usersRouter.post("/signin", async (c) => {
 
     if (response) {
       //generate jwt token
-      const payload = { userId: response.id };
+
+      const payload = {
+        id: response.id,
+        firstName: response.firstName,
+        lastName: response.lastName,
+        username: response.username,
+      };
+
       const token = await sign(payload, c.env.JWT_SECRET);
 
       return c.json({ message: "User logged in successfully", token }, 200);
