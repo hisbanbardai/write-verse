@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 
 export const useAuthentication = function () {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [user, setUser] = useState<Record<string, string> | null>(null);
 
   const location = useLocation();
 
@@ -17,9 +18,11 @@ export const useAuthentication = function () {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        console.log(response.data);
 
         if (response.status === 200) {
           setIsAuthenticated(true);
+          setUser(response.data.user);
         } else {
           setIsAuthenticated(false);
           localStorage.removeItem("token");
@@ -36,5 +39,6 @@ export const useAuthentication = function () {
 
   return {
     isAuthenticated,
+    user,
   };
 };
