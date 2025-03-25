@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 export const CreateBlogButton = function () {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex items-center gap-2 text-slate-600 text-lg">
+    <div
+      onClick={() => navigate("/blog/new")}
+      className="flex items-center gap-2 text-slate-600 text-lg"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="28"

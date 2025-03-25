@@ -18,7 +18,6 @@ export const useAuthentication = function () {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(response.data);
 
         if (response.status === 200) {
           setIsAuthenticated(true);
