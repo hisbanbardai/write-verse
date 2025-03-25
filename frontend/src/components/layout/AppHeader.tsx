@@ -14,8 +14,8 @@ export const AppHeader = function ({
         <CreateBlogButton />
         <Avatar
           authorNameInitials={authorNameInitials}
-          width="12"
-          height="12"
+          width="10"
+          height="10"
         />
       </div>
     </header>

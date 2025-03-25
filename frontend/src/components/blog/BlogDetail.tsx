@@ -14,7 +14,11 @@ export const BlogDetail = function ({ blog }: { blog: TBlog }) {
         <p className="text-lg font-semibold">Author</p>
         <div className="flex gap-5 items-center">
           <div>
-            <Avatar height="8" width="8" />
+            <Avatar
+              authorNameInitials={`${blog.author.firstName[0].toUpperCase()}${blog.author.lastName[0].toUpperCase()}`}
+              height="8"
+              width="8"
+            />
           </div>
           <div className="flex flex-col gap-2">
             <p className="text-3xl font-bold">{blog.author.firstName}</p>
