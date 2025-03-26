@@ -13,9 +13,16 @@ type TBlogCardProps = {
   blog: TBlog;
 };
 
+const stripHtml = (html: string) => {
+  return html.replace(/<\/?[^>]+(>|$)/g, ""); // Removes all HTML tags
+};
+
 export const BlogCard = function ({ blog }: TBlogCardProps) {
   const formattedDate = new Date(Date.parse(blog.createdAt)).toDateString();
-  const slicedContent = blog.content.slice(0, blog.content.length / 2);
+  const slicedContent = stripHtml(blog.content).slice(
+    0,
+    blog.content.length / 2
+  );
   const readDuration = Math.ceil(blog.content.length / 100);
   const authorNameInitials =
     blog.author.firstName[0].toUpperCase() +
@@ -37,7 +44,7 @@ export const BlogCard = function ({ blog }: TBlogCardProps) {
           <p className="text-slate-500 ">{formattedDate}</p>
         </div>
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">{blog.title}</h2>
+          <h2 className="text-2xl font-bold">{stripHtml(blog.title)}</h2>
           <p className="text-lg">{slicedContent}...</p>
         </div>
         <div>

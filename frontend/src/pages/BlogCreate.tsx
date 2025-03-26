@@ -2,11 +2,16 @@ import { useState } from "react";
 import { BlogContent } from "../components/blog/BlogContent";
 import { BlogTitle } from "../components/blog/BlogTitle";
 import { Button } from "../components/common/Button";
+import axios, { AxiosError } from "axios";
+import { BACKEND_URL } from "../config";
+import { handleError } from "../lib/utils";
+import { useNavigate } from "react-router-dom";
 
 export const BlogCreate = function () {
   const [isSubmit, setIsSubmit] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   function handleTitleChange(newTitle: string) {
     setTitle(newTitle);
@@ -16,7 +21,38 @@ export const BlogCreate = function () {
     setContent(newContent);
   }
 
-  function handleFormSubmit() {}
+  async function handleFormSubmit() {
+    try {
+      setIsSubmit(true);
+
+      const response = await axios.post(
+        `${BACKEND_URL}/blogs`,
+        {
+          title,
+          content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setIsSubmit(false);
+      setTitle("");
+      setContent("");
+
+      navigate(`/blog/${response.data.createdBlog.id}`);
+    } catch (error) {
+      setIsSubmit(false);
+      if (error instanceof AxiosError) {
+        console.error(error.response?.data.message);
+        handleError(error.response?.data);
+      } else {
+        console.error(error);
+        handleError(error);
+      }
+    }
+  }
 
   return (
     <div className="mx-auto w-full max-w-screen-lg">
