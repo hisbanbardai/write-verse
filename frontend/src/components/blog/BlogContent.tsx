@@ -2,7 +2,12 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { BubbleMenu, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-export const BlogContent = function () {
+type TBlogContentProps = {
+  value: string;
+  onChange: (newContent: string) => void;
+};
+
+export const BlogContent = function ({ value, onChange }: TBlogContentProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -12,6 +17,10 @@ export const BlogContent = function () {
       attributes: {
         class: "border-2 p-3 rounded-xl h-80 overflow-y-scroll",
       },
+    },
+    content: value,
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
     },
   });
 

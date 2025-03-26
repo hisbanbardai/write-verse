@@ -4,13 +4,22 @@ import StarterKit from "@tiptap/starter-kit";
 import "./styles/styles.scss";
 import Placeholder from "@tiptap/extension-placeholder";
 
-export const BlogTitle = () => {
+type TBlogTitleProps = {
+  value: string;
+  onChange: (newTitle: string) => void;
+};
+
+export const BlogTitle = ({ value, onChange }: TBlogTitleProps) => {
   const editor = useEditor({
     extensions: [StarterKit, Placeholder.configure({ placeholder: "Title" })],
     editorProps: {
       attributes: {
         class: "border-2 p-3 rounded-xl",
       },
+    },
+    content: value,
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
     },
   });
 
