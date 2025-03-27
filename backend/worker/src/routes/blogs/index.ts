@@ -64,7 +64,7 @@ blogsRouter.post("/", async (c) => {
     const result = createBlogSchema.safeParse(body);
 
     if (!result.success) {
-      return c.json({ message: result.error.format() }, 400);
+      return c.json({ message: result.error.formErrors.fieldErrors }, 400);
     }
 
     //initialize BlogService instance to initialize prisma client

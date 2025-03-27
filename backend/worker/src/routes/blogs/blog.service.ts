@@ -1,6 +1,7 @@
+import { createBlogSchemaT, updateBlogSchemaT } from "@hisbanshiraz/common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { createBlogSchemaT, updateBlogSchemaT } from "../../zod/blog";
+import sanitizeHtml from "sanitize-html";
 
 export class BlogService {
   private prisma;
@@ -42,10 +43,13 @@ export class BlogService {
 
   async createBlog(data: createBlogSchemaT, userId: number) {
     try {
+      const sanitizedTitle = sanitizeHtml(data.title);
+      const sanitizedContent = sanitizeHtml(data.content);
+
       const createdBlog = await this.prisma.blogs.create({
         data: {
-          title: data.title,
-          content: data.content,
+          title: sanitizedTitle,
+          content: sanitizedContent,
           authorId: userId,
         },
       });
