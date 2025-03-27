@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
-import { handleError } from "../lib/utils";
+// import { handleError } from "../lib/utils";
 import { useLocation } from "react-router-dom";
 
 export const useAuthentication = function () {
@@ -29,7 +29,7 @@ export const useAuthentication = function () {
       } catch (error) {
         setIsAuthenticated(false);
         localStorage.removeItem("token");
-        handleError(error);
+        // handleError(error);
       }
     }
 
