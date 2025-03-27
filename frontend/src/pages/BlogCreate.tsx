@@ -44,13 +44,8 @@ export const BlogCreate = function () {
       navigate(`/blog/${response.data.createdBlog.id}`);
     } catch (error) {
       setIsSubmit(false);
-      if (error instanceof AxiosError) {
-        console.error(error.response?.data.message);
-        handleError(error.response?.data);
-      } else {
-        console.error(error);
-        handleError(error);
-      }
+      console.error(error);
+      handleError(error);
     }
   }
 

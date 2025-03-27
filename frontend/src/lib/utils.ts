@@ -6,6 +6,10 @@ export const handleError = function (error: unknown) {
 
   if (error instanceof AxiosError) {
     message = error.response?.data.message;
+    for (const key of Object.keys(message)) {
+      toast.error(message[key][0]);
+    }
+    return;
   } else if (error instanceof Error) {
     message = error.message;
   } else {
