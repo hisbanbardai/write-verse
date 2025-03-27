@@ -56,8 +56,8 @@ export const BlogCard = function ({ blog }: TBlogCardProps) {
 };
 
 export const Avatar = function ({
-  width = "10",
-  height = "10",
+  width,
+  height,
   authorNameInitials,
 }: {
   width: string;
