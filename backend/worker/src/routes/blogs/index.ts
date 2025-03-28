@@ -142,6 +142,21 @@ blogsRouter.put("/:blogId", async (c) => {
   }
 });
 
+blogsRouter.get("/my-blogs", async (c) => {
+  try {
+    const user = c.get("user");
+    const userId = Number(user.id);
+
+    const blogService = new BlogService(c.env.DATABASE_URL);
+    const userBlogs = await blogService.getBlogsByUserId(userId);
+
+    return c.json({ blogs: userBlogs }, 200);
+  } catch (error) {
+    console.error("Failed to fetch the blogs", error);
+    return c.json({ message: "Failed to fetch the blogs" }, 500);
+  }
+});
+
 blogsRouter.get("/:blogId", async (c) => {
   try {
     const blogId = Number(c.req.param("blogId"));

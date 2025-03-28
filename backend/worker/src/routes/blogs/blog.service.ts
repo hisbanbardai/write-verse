@@ -41,6 +41,33 @@ export class BlogService {
     }
   }
 
+  async getBlogsByUserId(userId: number) {
+    try {
+      const userBlogs = await this.prisma.blogs.findMany({
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          createdAt: true,
+          author: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+        where: {
+          authorId: userId,
+        },
+      });
+
+      return { userBlogs };
+    } catch (error) {
+      console.error("Error fetching user blogs", error);
+      throw error;
+    }
+  }
+
   async createBlog(data: createBlogSchemaT, userId: number) {
     try {
       const sanitizedTitle = sanitizeHtml(data.title);
