@@ -14,9 +14,7 @@ export const AppHeader = function ({
   const profileAvatarRef = useRef<HTMLDivElement>(null);
   const profilePopOverRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside([profileAvatarRef, profilePopOverRef], () =>
-    setIsOpen(false)
-  );
+  useOnClickOutside([profileAvatarRef], () => setIsOpen(false));
 
   return (
     <header className="flex justify-between items-center px-10 pt-6 border-b pb-4 relative">
