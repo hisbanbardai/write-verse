@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 
 export const ProfilePopOver = forwardRef<HTMLDivElement>(function (_, ref) {
@@ -9,7 +10,7 @@ export const ProfilePopOver = forwardRef<HTMLDivElement>(function (_, ref) {
     navigate("/signin", { replace: true });
   }
 
-  return (
+  return createPortal(
     <div
       ref={ref}
       className="profile-popover absolute rounded py-4 w-28 bg-gray-300 top-[4.5rem] right-6 flex flex-col gap-3"
@@ -23,6 +24,7 @@ export const ProfilePopOver = forwardRef<HTMLDivElement>(function (_, ref) {
       >
         Log out
       </p>
-    </div>
+    </div>,
+    document.body
   );
 });
