@@ -7,6 +7,7 @@ import { Blogs } from "./pages/Blogs";
 import { Blog } from "./pages/Blog";
 import { BlogCreate } from "./pages/BlogCreate";
 import { Toaster } from "react-hot-toast";
+import { MyBlogs } from "./pages/MyBlogs";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path={"/blogs"} element={<Blogs />} />
             <Route path="/blog/:id" element={<Blog />} />
             <Route path="/blog/new" element={<BlogCreate />} />
+            <Route path="/my-blogs" element={<MyBlogs />} />
           </Route>
         </Routes>
       </BrowserRouter>
