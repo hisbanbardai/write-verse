@@ -27,6 +27,7 @@ export const useAuthentication = function () {
           localStorage.removeItem("token");
         }
       } catch (error) {
+        console.error(error);
         setIsAuthenticated(false);
         localStorage.removeItem("token");
         // handleError(error);

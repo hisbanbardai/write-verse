@@ -5,6 +5,7 @@ import { TBlog } from "../components/blog/BlogCard";
 import { useQuery } from "@tanstack/react-query";
 
 export type TBlogAuthor = {
+  id: number;
   firstName: string;
   lastName: string;
 };

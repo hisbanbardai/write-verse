@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BlogContent } from "../components/blog/BlogContent";
 import { BlogTitle } from "../components/blog/BlogTitle";
 import { Button } from "../components/common/Button";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { handleError } from "../lib/utils";
 import { useNavigate } from "react-router-dom";

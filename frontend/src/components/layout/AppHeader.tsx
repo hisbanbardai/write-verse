@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Avatar } from "../blog/BlogCard";
 import { CreateBlogButton } from "./CreateBlogButton";
 import { Logo } from "./Logo";

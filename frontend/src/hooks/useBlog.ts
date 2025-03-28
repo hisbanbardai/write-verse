@@ -11,10 +11,11 @@ export function useBlog(id: string | undefined) {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+
     return response.data;
   }
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["blogId", id],
     queryFn: fetchBlog,
     staleTime: 1000 * 60 * 60,
@@ -25,5 +26,5 @@ export function useBlog(id: string | undefined) {
 
   const blog = data?.existingBlog || null;
 
-  return { blog, isLoading };
+  return { blog, isLoading, refetch };
 }

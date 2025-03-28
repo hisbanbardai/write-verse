@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Avatar, TBlog } from "./BlogCard";
 
 export const BlogDetail = function ({ blog }: { blog: TBlog }) {
@@ -9,9 +10,17 @@ export const BlogDetail = function ({ blog }: { blog: TBlog }) {
             className="text-5xl font-extrabold"
             dangerouslySetInnerHTML={{ __html: blog.title }}
           ></h1>
-          <p className="text-lg text-slate-500">
-            Posted on {new Date(Date.parse(blog.createdAt)).toDateString()}
-          </p>
+          <div className="flex justify-between">
+            <p className="text-lg text-slate-500">
+              Posted on {new Date(Date.parse(blog.createdAt)).toDateString()}
+            </p>
+            <Link
+              to={`/blog/${blog.id}/edit`}
+              className="px-3 py-1 border border-gray-400 rounded-md text-gray-600 hover:bg-gray-100 transition"
+            >
+              Edit
+            </Link>
+          </div>
         </div>
         <div
           className="text-xl leading-8"
