@@ -3,6 +3,7 @@ import { Avatar } from "../blog/BlogCard";
 import { CreateBlogButton } from "./CreateBlogButton";
 import { Logo } from "./Logo";
 import { ProfilePopOver } from "./ProfilePopOver";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
 export const AppHeader = function ({
   authorNameInitials,
@@ -13,33 +14,9 @@ export const AppHeader = function ({
   const profileAvatarRef = useRef<HTMLDivElement>(null);
   const profilePopOverRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    function handleClickEvent(e: MouseEvent) {
-      console.log(e.target);
-
-      // if (
-      //   e.target instanceof Element &&
-      //   !e.target.closest(".profile-avatar") &&
-      //   !e.target.closest(".profile-popover")
-      // ) {
-      //   setIsOpen(false);
-      // }
-
-      if (
-        !profileAvatarRef.current?.contains(e.target as Node) &&
-        !profilePopOverRef.current?.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    }
-    console.log(profileAvatarRef.current);
-
-    document.addEventListener("click", handleClickEvent);
-
-    return () => {
-      document.removeEventListener("click", handleClickEvent);
-    };
-  }, []);
+  useOnClickOutside([profileAvatarRef, profilePopOverRef], () =>
+    setIsOpen(false)
+  );
 
   return (
     <header className="flex justify-between items-center px-10 pt-6 border-b pb-4 relative">
