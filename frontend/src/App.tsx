@@ -9,25 +9,28 @@ import { BlogCreate } from "./pages/BlogCreate";
 import { Toaster } from "react-hot-toast";
 import { MyBlogs } from "./pages/MyBlogs";
 import { BlogEdit } from "./pages/BlogEdit";
+import { AuthContextProvider } from "./contexts/AuthContextProvider";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route element={<PublicRoutes />}>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
-          </Route>
-          <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<Navigate to="/blogs" replace />} />
-            <Route path={"/blogs"} element={<Blogs />} />
-            <Route path="/blog/:id" element={<Blog />} />
-            <Route path="/blog/new" element={<BlogCreate />} />
-            <Route path="/my-blogs" element={<MyBlogs />} />
-            <Route path="/blog/:id/edit" element={<BlogEdit />} />
-          </Route>
-        </Routes>
+        <AuthContextProvider>
+          <Routes>
+            <Route element={<PublicRoutes />}>
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signin" element={<Signin />} />
+            </Route>
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/" element={<Navigate to="/blogs" replace />} />
+              <Route path={"/blogs"} element={<Blogs />} />
+              <Route path="/blog/:id" element={<Blog />} />
+              <Route path="/blog/new" element={<BlogCreate />} />
+              <Route path="/my-blogs" element={<MyBlogs />} />
+              <Route path="/blog/:id/edit" element={<BlogEdit />} />
+            </Route>
+          </Routes>
+        </AuthContextProvider>
       </BrowserRouter>
       <Toaster
         position="top-center"

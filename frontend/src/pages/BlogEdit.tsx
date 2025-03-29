@@ -8,6 +8,7 @@ import axios from "axios";
 import { BlogTitle } from "../components/blog/BlogTitle";
 import { BlogContent } from "../components/blog/BlogContent";
 import { Button } from "../components/common/Button";
+import { useAuthentication } from "../hooks/useAuthentication";
 
 export const BlogEdit = function () {
   const { id } = useParams();
@@ -16,13 +17,19 @@ export const BlogEdit = function () {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuthentication();
 
   useEffect(() => {
     if (blog) {
+      if (blog.author.id !== Number(user?.id)) {
+        navigate(`/blog/${blog.id}`);
+        return;
+      }
+
       setTitle(blog.title);
       setContent(blog.content);
     }
-  }, [blog]);
+  }, [blog, navigate, user]);
 
   function handleTitleChange(newTitle: string) {
     setTitle(newTitle);

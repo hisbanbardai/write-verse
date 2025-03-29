@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { Avatar, TBlog } from "./BlogCard";
+import { useAuthentication } from "../../hooks/useAuthentication";
 
 export const BlogDetail = function ({ blog }: { blog: TBlog }) {
+  const { user } = useAuthentication();
+
+  const showEditButton = Number(user?.id) === blog.author.id;
+
   return (
     <div className="px-10 mt-20 flex gap-8 mb-20 lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
       <div className="flex flex-col gap-3 w-2/3">
@@ -14,12 +19,14 @@ export const BlogDetail = function ({ blog }: { blog: TBlog }) {
             <p className="text-lg text-slate-500">
               Posted on {new Date(Date.parse(blog.createdAt)).toDateString()}
             </p>
-            <Link
-              to={`/blog/${blog.id}/edit`}
-              className="px-3 py-1 border border-gray-400 rounded-md text-gray-600 hover:bg-gray-100 transition"
-            >
-              Edit
-            </Link>
+            {showEditButton && (
+              <Link
+                to={`/blog/${blog.id}/edit`}
+                className="px-3 py-1 border border-gray-400 rounded-md text-gray-600 hover:bg-gray-100 transition"
+              >
+                Edit
+              </Link>
+            )}
           </div>
         </div>
         <div
