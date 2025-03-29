@@ -87,16 +87,16 @@ export const BlogEdit = function () {
   }
 
   return (
-    <div className="mx-auto w-full max-w-screen-lg">
+    <div className="mx-auto w-full max-w-[400px] sm:max-w-screen-sm lg:max-w-screen-lg ">
       <div className="flex flex-col gap-10">
         <div className="w-full mt-10 text-xl">
-          <BlogTitle value={blog.title} onChange={handleTitleChange} />
+          <BlogTitle value={title} onChange={handleTitleChange} />
         </div>
         <div className="w-full text-xl">
-          <BlogContent value={blog.content} onChange={handleContentChange} />
+          <BlogContent value={content} onChange={handleContentChange} />
         </div>
       </div>
-      <div className="w-1/6 mt-6">
+      <div className="w-2/6 lg:w-1/6 mt-6">
         <Button
           handleFormSubmit={handleFormSubmit}
           label="Publish"

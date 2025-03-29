@@ -50,7 +50,7 @@ export const BlogCreate = function () {
   }
 
   return (
-    <div className="mx-auto w-full max-w-screen-lg">
+    <div className="mx-auto w-full max-w-[400px] sm:max-w-screen-sm lg:max-w-screen-lg ">
       <div className="flex flex-col gap-10">
         <div className="w-full mt-10 text-xl">
           <BlogTitle value={title} onChange={handleTitleChange} />
@@ -59,7 +59,7 @@ export const BlogCreate = function () {
           <BlogContent value={content} onChange={handleContentChange} />
         </div>
       </div>
-      <div className="w-1/6 mt-6">
+      <div className="w-2/6 lg:w-1/6 mt-6">
         <Button
           handleFormSubmit={handleFormSubmit}
           label="Publish"
